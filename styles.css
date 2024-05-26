@@ -7,60 +7,53 @@
 
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
-/* Header */
-header {
+.company-name {
+    text-align: center;
     background-color: #f8f9fa;
-    padding: 20px;
+    padding: 10px 0;
+}
+
+header {
+    background-color: #007bff;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
     text-align: center;
 }
 
-header h1 {
-    font-size: 2rem;
+nav ul li {
+    display: inline-block;
 }
 
-/* Main Content */
-main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.content {
-    max-width: 800px;
-    margin: 0 20px;
-}
-
-/* Footer */
-footer {
-    background-color: #000;
+nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
     color: #fff;
-    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+main {
+    display: flex;
+    justify-content: space-around;
     padding: 20px;
+}
+
+.card {
+    width: 100px;
     height: 100px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    .content {
-        margin: 0 10px;
-    }
-
-    footer {
-        padding: 10px;
-        height: auto;
-    }
 }
