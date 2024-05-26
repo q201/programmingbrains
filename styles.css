@@ -59,4 +59,10 @@ main {
     align-items: center;
 }
 
+footer{
+    color: red;
+    background-color: gray;
+    text-align: center;
+}
+
  
