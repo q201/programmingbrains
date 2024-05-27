@@ -1,0 +1,124 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+.company-name {
+     
+    display: flex;
+    background-color: #f8f9fa;
+    padding: 10px 10px;
+    align-items: center;
+    
+}
+.company-name img{
+    height: 100px;
+    width: 100px;
+    padding:0;
+    margin: 0;
+    align-self: flex-end;
+    float: right;
+}
+.company-name .col1{
+     width: 40%; 
+}
+
+header {
+    background-color: #007bff;
+    padding: 15px 0;
+    font-size: large;
+    position: sticky;  
+    top: 0px;
+    box-shadow: 0 5px 15px 3px rgb(207, 207, 207); 
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ml_content{
+     
+    display: flex;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    
+}
+.ml_content > .mlimage{
+    width: 300px;
+    height: 300px;
+    margin: 5px;
+
+}
+ 
+.ml_content > .mldefine{
+    background-color: rgba(219, 216, 216, 0.1);
+    margin: 10px;
+    padding: 50px;  
+    font-family: Monospace;
+    letter-spacing: 1px;
+    font-size: large;
+    line-height: 30px;
+    border-radius: 10px;
+}
+.ml_content > .mldefine:hover, .mlimage:hover{
+    box-shadow: 0 0 20px 2px rgb(204, 204, 204);
+}
+ol,ul{
+    margin-left: 50px;
+}
+ul{
+    list-style-type: disc;
+}
+ 
+
+footer{
+    color: red;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    height: 100px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+span{width: 50px;
+display: inline-block;
+}
+.ml_content a{
+    text-decoration: none;
+    color: black;
+}
+.ml_content a:hover{
+    text-decoration: underline;
+    color: blue;
+}
