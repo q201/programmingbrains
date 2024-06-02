@@ -1,0 +1,140 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.company-name {
+     
+    display: flex;
+    background-color: #f8f9fa;
+    padding: 10px 10px;
+    align-items: center;
+    
+}
+.company-name img{
+    height: 100px;
+    width: 100px;
+    padding:0;
+    margin: 0;
+    align-self: flex-end;
+    float: right;
+}
+.company-name .col1{
+     width: 40%; 
+}
+header {
+    background-color: #007bff;
+    padding: 15px 0;
+    font-size: large;
+    position: sticky;  
+    top: 0px;
+    box-shadow: 0 5px 15px 3px rgb(207, 207, 207); 
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+.hero_section {
+    display: flex;
+    
+    margin: 30px 100px;
+    height: 400px;
+    
+}
+
+.hero_section  .card1{
+    
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+.hero_section  .card1:hover{
+    box-shadow: 0 0 20px 2px rgb(204, 204, 204);
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+.hero_section .card2{
+   border-radius: 10px;
+    width: 50%;
+}
+.hero_section .card2:hover{
+    box-shadow: 0 0 20px 2px rgb(204, 204, 204);
+
+    width: 50%;
+}
+footer{
+    color: red;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    height: 100px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+ 
+
+.col2{
+    width: 50%;
+    padding: 5px;
+    background-color: 1px solid rgb(117, 163, 79);
+}
+
+div.card1 ul{
+    margin-left: 50px;
+    margin-top: 30px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 50px;
+    font-size: large;
+}
+div.topic_container{
+    display: flex;  
+    margin: 30px 100px;
+    flex-wrap: wrap;
+    overflow: hidden; /* Hide any overflowed content */
+    position: relative;
+}
+div.topic_container .card{
+    width: 250px;
+    height: 300px;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #cfced3;
+    margin: 6px;
+    border-radius: 10px;
+    text-align: center;
+
+}
+div.topic_container .card:hover{
+    box-shadow: 0 0 20px 2px rgb(204, 204, 204);
+
+}
+ 
