@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning</title>
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="banner">
+        <img src="assets/PXL_20230924_032600605~2.jpg" alt="Serene Sea and Mountain Banner" class="responsive-img">
+    </div>
+    <div class="container" style="margin-left: 10%; margin-right: 10%;">
+    <div class="container">
+        <div class="row author-info valign-wrapper">
+                
+            <div class="col s1">
+                <img src="assets/author/saqib_sulaiman_blur-modified.png" alt="Author Profile Picture" class="circle responsive-img" style="width: 50px; height: 50px; margin: 16px 0 16px 0;">
+            </div>
+        
+            <div class="col s11">
+                <h5 style="margin: 0;">Saqib Sarwar Khan</h5>
+                <p style="margin: 0;">Machine Learning</p>
+            </div>
+        </div>
+        <article class="card-panel">
+            <h5>Introduction to Machine Learning</h5>
+            <p>Machine Learning (ML) is a branch of Artificial Intelligence (AI) focused on building applications that learn from data and improve their accuracy over time without being programmed to do so. In this article, we'll explore the basics of machine learning, provide code examples, and embed relevant images and videos to illustrate key concepts.</p>
+            <h6>Code Example</h6>
+            <pre><code class="language-python">import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Example data
+X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+y = np.dot(X, np.array([1, 2])) + 3
+
+# Create model
+model = LinearRegression().fit(X, y)
+
+# Make predictions
+predictions = model.predict(np.array([[3, 5]]))
+print(predictions)</code></pre>
+            <h6>Image Example</h6>
+            <img src="machine-learning.png" alt="Machine Learning Process" class="responsive-img">
+            <h6>Video Example</h6>
+            <video controls class="responsive-video">
+                <source src="machine-learning-intro.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </article>
+        <div class="row navigation">
+            <div class="col s6">
+                <a href="#" id="prev-article" class="btn">Previous Article</a>
+            </div>
+            <div class="col s6 right-align">
+                <a href="#" id="next-article" class="btn">Next Article</a>
+            </div>
+        </div>
+        <div class="comments-section card-panel">
+            <h5>Post a Comment</h5>
+            <div class="input-field">
+                <textarea id="comment-box" class="materialize-textarea" placeholder="Write your comment here..."></textarea>
+            </div>
+            <button id="post-comment" class="btn">Post Comment</button>
+            <div class="comments">
+                <!-- Comments will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
