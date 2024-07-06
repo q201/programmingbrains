@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmingBrains</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        .nav-wrapper {
+            padding: 0 20px;
+        }
+
+        .banner {
+            background: url('assets/PXL_20230616_083955463.jpg') no-repeat center center;
+            background-size: cover;
+            height: 50vh;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .article-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            margin: 0 15%;
+        }
+
+        .article-header img {
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .article-meta {
+            color: #757575;
+        }
+
+        .main-article {
+            margin: 0 15%;
+        }
+
+        .upvote {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 20px;
+            margin: 0 15%;
+        }
+
+        .upvote .material-icons {
+            margin-right: 5px;
+        }
+
+        footer {
+            background: #2e7d32;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="green darken-1">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">programmingBrains</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#machine-learning">Machine Learning</a></li>
+                <li><a href="#generative-ai">Generative AI</a></li>
+                <li><a href="#data-science">Data Science</a></li>
+                <li><a href="#job-updates">Job Updates</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="banner"></div>
+    
+
+    <div class="container">
+        <div class="article-header">
+            <img src="assets/saqib_sulaiman_blur-modified.png" alt="Author" width="50" height="50">
+            <div>
+                <div>Saqib Sarwar Khan</div>
+                <div class="article-meta">Explainable AI | 5 min read | 2024-06-02</div>
+            </div>
+        </div>
+
+        <div class="main-article">
+            <h4>Contrasive Explanations for Deep Learning Models</h4>
+            <h6>A New Paradigm in Explainable AI</h6>
+            <p>A picture is worth more than a thousand words, but what if you could understand the words behind the picture? Recently, I came across an interesting paper, <a href="https://proceedings.mlr.press/v216/xie23a/xie23a.pdf">Two-Stage Holistic and Contrastive Explanation of Image Classification</a> in the field of Explainable AI. 
+            The paper talks about how using contrastive explanations and second order gradient information, we can have better explanations for Deep Learning models, specially in multi-object and multi-class settings.</p>
+            <img src="assets/swox-cwox.png" alt="SWOX-CWOX" class="responsive-img-1" ALIGN=”left” max-width="80%" height="auto">
+            <figcaption>Fig 1: Explanations of the outputs of GoogleNet on two
+                input images: (b.1-2) Grad-CAM is applied to each top
+                output class separately (SWOX); (c.1-2) The top output
+                classes are contrasted against each other (CWOX).</figcaption>
+            <p>
+                First order Gradient based methods such as Grad-CAM, LIME, SHAP, etc. have been widely used for explaining deep learning models. These methods provide insights into the model's decision-making process by highlighting the most relevant parts of the input data. However, they often lack contrastive explanations, which compare the model's predictions for different classes or inputs. Contrastive explanations are essential for understanding why a model <em>chooses class A and not class B</em>. The paper introduces a novel framework called Contrastive Weighted Output eXplanation (CWOX) that generates contrastive explanations by leveraging second-order gradient information. CWOX provides a more holistic view of the model's decision-making process, enabling users to understand not only what the model predicts but also why it makes those predictions.
+            </p>
+            
+            <img src="assets/cwox.png" alt="CWOX" class="responsive-img-2" ALIGN="right" max-width="80%" height="auto">
+            <figcaption>Fig 2: CWOX-2s explanation of the output of ResNet on
+                the input image (with Grad-CAM as the base explainer).</figcaption>
+            <p>The field has also seen progress in explainability for deep learning models, particularly through techniques like attention mechanisms and saliency maps. Attention mechanisms, initially popularized in natural language processing, highlight which parts of the input data the model is focusing on when making a prediction. Saliency maps visualize the areas in an image that most influence the model’s decision, providing insights into the model's behavior in computer vision tasks. These techniques make it easier to debug models and ensure they are learning the right patterns from the data.
+            </p>
+            <p>    
+                In addition to technical advancements, there is a growing emphasis on the human aspect of XAI. Researchers are increasingly considering the end-user's perspective, ensuring that explanations are not only technically sound but also comprehensible and actionable for non-experts. This has led to the development of user-centered design principles for XAI, aiming to tailor explanations to the specific needs of different user groups, from engineers to business stakeholders. Interactive visualization tools are being created to help users explore and understand AI models dynamically.
+            </p>
+            <img src="assets/latentcwox.png" alt="Latent CWOX" class="responsive-img">
+            <figcaption>Fig 3: A part of the latent tree model built from the outputs of ResNet50 on ImageNet training examples. Solid lines are
+                direct connections, and dashed lines are indirect connections with intermediate nodes removed. Images of the classes are
+                displayed for visual reference. They are not part of the model. The tree reveals co-occurrence patterns of class labels in
+                classification outputs.</figcaption>
+            <p>    
+                Finally, regulatory and ethical considerations are driving the push for explainable AI. Laws like the General Data Protection Regulation (GDPR) in Europe mandate transparency in automated decision-making systems, compelling organizations to adopt XAI methods. Ethical AI frameworks stress the importance of accountability, fairness, and transparency, recognizing that explainability is crucial for ensuring that AI systems are trustworthy and do not inadvertently reinforce biases. As a result, explainable AI is not just a technical challenge but a multidisciplinary endeavor, requiring collaboration between technologists, ethicists, and policymakers to build AI systems that are both powerful and transparent.</p>
+            <!-- <video class="responsive-video" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> -->
+            <!-- <iframe src="https://www.youtube.com/watch?v=Yg3q5x7yDeM&pp=ygUOZXhwbGFpbmFibGUgYWk%3D" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+        </div>
+
+        <div class="upvote">
+            <i class="material-icons">thumb_up</i>
+            <span>Thankyou for this article</span>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div>&copy; 2024 programmingBrains</div>
+    <div>
+        <a href="#about-us">About Us</a>
+        <a href="#privacy-policy">Privacy Policy</a>
+        <a href="#terms">Terms & Conditions</a>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
