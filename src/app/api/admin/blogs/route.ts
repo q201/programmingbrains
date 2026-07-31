@@ -5,7 +5,20 @@ import { withAuth } from '@/lib/auth';
 
 async function postHandler(req: NextRequest, user: { id: string }) {
   try {
-    const { title, content, slug, published } = await req.json();
+    const {
+      title,
+      content,
+      slug,
+      excerpt,
+      coverImage,
+      imageAlt,
+      readTime,
+      tags,
+      seoTitle,
+      seoDesc,
+      published,
+      featured
+    } = await req.json();
 
     if (!title || !content || !slug) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -16,13 +29,22 @@ async function postHandler(req: NextRequest, user: { id: string }) {
         title,
         content,
         slug,
+        excerpt,
+        coverImage,
+        imageAlt,
+        readTime,
+        tags: tags || [],
+        seoTitle,
+        seoDesc,
         published: published ?? false,
+        featured: featured ?? false,
         authorId: user.id,
       },
     });
 
     return NextResponse.json(blog);
   } catch (error) {
+    console.error('Error creating blog:', error);
     return NextResponse.json({ error: 'Failed to create blog' }, { status: 500 });
   }
 }

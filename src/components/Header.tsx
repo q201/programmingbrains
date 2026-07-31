@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface User {
   id: string;
@@ -17,10 +17,11 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   const navigationItems = [
     { name: 'Home', href: '/' },
-    { name: 'Tutorials', href: '/tutorials' },
+    { name: 'Tutorials', href: '/tutorial' },
     { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
@@ -53,6 +54,10 @@ export default function Header() {
       console.error('Logout failed:', error);
     }
   };
+
+  if (pathname?.startsWith('/api/docs')) {
+    return null;
+  }
 
   return (
     <header className="bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 shadow-sm border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">

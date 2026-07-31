@@ -20,7 +20,7 @@ export default function Header() {
 
   const navigationItems = [
     { name: 'Home', href: '/' },
-    { name: 'Tutorials', href: '/tutorials' },
+    { name: 'Tutorials', href: '/tutorial' },
     { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },

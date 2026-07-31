@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-300 py-12">
-      <div className="mx-auto px-[200px]">
+      <div className="mx-auto px-4 sm:px-6 md:px-8 lg:px-[200px]">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-white font-semibold mb-4">Programming Brains</h3>
@@ -29,13 +29,13 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Newsletter</h4>
             <p className="text-sm mb-4">Stay updated with our latest tutorials and articles.</p>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               />
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg transition-colors">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg sm:rounded-l-none sm:rounded-r-lg transition-colors whitespace-nowrap">
                 Subscribe
               </button>
             </div>
