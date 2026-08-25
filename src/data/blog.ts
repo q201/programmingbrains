@@ -71,74 +71,564 @@ const blogPostsData: BlogPost[] = [
     tags: ['Web Development', 'Future Trends', 'Technology', 'AI', 'Web3']
   },
   {
-    slug: 'building-scalable-applications',
-    title: 'Building Scalable Applications',
-    excerpt: 'Learn best practices for building enterprise-level applications',
+    slug: 'building-scalable-microservices-nodejs-docker-redis',
+    title: 'Building Scalable Microservices with Node.js, Docker & Redis',
+    excerpt: 'An in-depth, enterprise-grade engineering guide to designing, orchestrating, and hardening fault-tolerant microservices built to withstand tens of thousands of requests per second.',
     content: `
-      <p>Building scalable applications is crucial for modern businesses that need to handle growth and increased user demand. This guide covers the essential principles and practices for creating robust, scalable systems.</p>
+      <!-- Table of Contents Card -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-10 shadow-sm not-prose">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 m-0 border-none pb-0">Table of Contents</h2>
+        </div>
+        <nav class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+          <a href="#the-monolithic-tipping-point" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">1.</span> Monolithic Tipping Point
+          </a>
+          <a href="#architectural-blueprint" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">2.</span> Distributed Architecture &amp; Lifecycle
+          </a>
+          <a href="#core-building-blocks" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">3.</span> 4 Core Architectural Building Blocks
+          </a>
+          <a href="#redis-deep-dive" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">4.</span> Redis Under the Hood
+          </a>
+          <a href="#docker-orchestration" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">5.</span> Multi-Stage Dockerization
+          </a>
+          <a href="#resilience-patterns" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">6.</span> Fault Tolerance &amp; Resilience
+          </a>
+          <a href="#observability-tracing" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">7.</span> Tracing, Logging &amp; Telemetry
+          </a>
+          <a href="#production-readiness-checklist" class="text-slate-700 hover:text-blue-600 hover:bg-blue-50/80 px-3 py-2 rounded-lg transition-colors font-medium flex items-center gap-2">
+            <span class="text-blue-500 font-bold">8.</span> Production Readiness Checklist
+          </a>
+        </nav>
+      </div>
 
-      <h2>Understanding Scalability</h2>
+      <!-- Section 1 -->
+      <section id="the-monolithic-tipping-point" class="scroll-mt-20">
+        <h2>1. The Monolithic Tipping Point: Identifying System Bottlenecks</h2>
+        <p>Scaling a monolithic Node.js application to sustain millions of daily transactions quickly exposes fundamental operational limits. Because Node.js runs on a single-threaded event loop (libuv), CPU-heavy tasks like image processing, JSON serialization of massive payloads, and cryptographic operations inevitably block I/O operations for concurrent requests.</p>
+        <p>When traffic scales horizontally in a monolithic setup, scaling requires spinning up copies of the entire monolithic codebase—including low-traffic services alongside critical bottlenecks. This approach causes exponential database connection pool exhaustion, memory bloat, and slow CI/CD release cycles where a single regression in a non-critical module can bring down the entire application.</p>
+        <p>Decomposing the monolith into purpose-built, domain-driven microservices decouples resource allocation. High-throughput ingestion pipelines can be independently assigned dedicated CPU cores, auto-scaled based on queuing pressure, and isolated so that database spikes or network timeouts never trigger cascading failures throughout the broader platform.</p>
 
-      <p>Scalability refers to the ability of a system to handle increased load by adding resources to the system. There are two main types:</p>
+        <!-- Key Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 not-prose">
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/80 rounded-2xl p-6 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Impact Metric</div>
+            <div class="text-4xl font-extrabold text-blue-900 mb-2">64%</div>
+            <div class="text-sm font-bold text-slate-800 mb-1">Mean Latency Reduction</div>
+            <div class="text-xs text-slate-600 leading-relaxed">Observed after migrating I/O-bound bottlenecks to dedicated cache-first services.</div>
+          </div>
+          <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-2xl p-6 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-1">Velocity Metric</div>
+            <div class="text-4xl font-extrabold text-emerald-900 mb-2">12x</div>
+            <div class="text-sm font-bold text-slate-800 mb-1">Deployment Frequency</div>
+            <div class="text-xs text-slate-600 leading-relaxed">Independent service pipelines eliminate monolithic release lockstep.</div>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200/80 rounded-2xl p-6 shadow-sm">
+            <div class="text-xs font-bold uppercase tracking-wider text-purple-600 mb-1">Cost Metric</div>
+            <div class="text-4xl font-extrabold text-purple-900 mb-2">38%</div>
+            <div class="text-sm font-bold text-slate-800 mb-1">Infrastructure Cost Optimization</div>
+            <div class="text-xs text-slate-600 leading-relaxed">Granular auto-scaling of CPU-intensive workers without resizing primary web tiers.</div>
+          </div>
+        </div>
+      </section>
 
-      <h3>Vertical Scaling (Scale Up)</h3>
-      <p>Adding more power to existing machines - more CPU, RAM, or storage. This is simpler but has physical limitations and can be expensive.</p>
+      <!-- Section 2 -->
+      <section id="architectural-blueprint" class="scroll-mt-20">
+        <h2>2. High-Level Distributed Architecture &amp; Request Lifecycle</h2>
+        <p>In a production-grade distributed deployment, incoming client requests never communicate directly with internal worker pods. Traffic passes through layered perimeter defense and load-balancing tiers before reaching the domain services.</p>
+        <p>Below is the comprehensive path of an inbound request across the architectural mesh:</p>
 
-      <h3>Horizontal Scaling (Scale Out)</h3>
-      <p>Adding more machines to handle the load. This is more complex but offers better fault tolerance and potentially unlimited scaling.</p>
+        <!-- Workflow Steps Timeline -->
+        <div class="space-y-4 my-8 not-prose">
+          <div class="flex gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-blue-300 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-md">1</div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 mb-1">Edge Ingestion &amp; TLS Termination</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">Cloudflare or AWS CloudFront terminates TLS, mitigates Layer 7 DDoS attacks, and serves static cache assets before passing traffic to the ingress controller.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-blue-300 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-md">2</div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 mb-1">API Gateway Processing</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">Kong, Traefik, or an Express/Fastify gateway performs rapid JWT signature verification, enforces Redis-backed sliding-window rate limits, and injects <code class="bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono text-xs">X-Correlation-ID</code> headers.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-blue-300 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-md">3</div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 mb-1">Service Mesh Routing &amp; L7 Load Balancing</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">The Gateway resolves internal DNS records to route requests to stateless Node.js container pods via gRPC (for internal sub-millisecond RPC) or HTTP/2.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-blue-300 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-md">4</div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 mb-1">Cache Interception &amp; Lock Acquisition</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">The target service checks its dedicated Redis Cluster replica for warm data. If a write operation is required, distributed locks (Redlock) coordinate concurrency.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-blue-300 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-md">5</div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900 mb-1">Asynchronous Event Propagation</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">State changes publish event payloads to Apache Kafka or RabbitMQ, freeing the upstream request thread while background workers handle notifications, indexing, and analytics.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <h2>Database Scalability</h2>
+      <!-- Section 3 -->
+      <section id="core-building-blocks" class="scroll-mt-20">
+        <h2>3. The 4 Core Architectural Building Blocks</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:border-blue-400 transition-all">
+            <div>
+              <div class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Perimeter Routing &amp; Security</div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3 mt-0">API Gateway &amp; Traffic Throttling</h3>
+              <ul class="space-y-2 text-sm text-slate-600 mb-6 pl-0 list-none">
+                <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">✓</span> Performs centralized authentication, token introspection, and scope enforcement.</li>
+                <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">✓</span> Applies dynamic IP and user-tier rate limiting using Redis Sliding Window counters.</li>
+                <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">✓</span> Manages service discovery routing tables and WebSocket connection upgrades.</li>
+              </ul>
+            </div>
+            <div class="pt-4 border-t border-slate-100">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Technologies</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Kong</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Traefik</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Fastify Gateway</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Envoy</span>
+              </div>
+            </div>
+          </div>
 
-      <h3>Read Replicas</h3>
-      <p>Use read replicas to distribute read queries across multiple database instances while keeping writes on the primary database.</p>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:border-indigo-400 transition-all">
+            <div>
+              <div class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Domain Business Logic</div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3 mt-0">Stateless Node.js Compute Layer</h3>
+              <ul class="space-y-2 text-sm text-slate-600 mb-6 pl-0 list-none">
+                <li class="flex items-start gap-2"><span class="text-indigo-600 font-bold">✓</span> Executes targeted business workflows with non-blocking async/await execution.</li>
+                <li class="flex items-start gap-2"><span class="text-indigo-600 font-bold">✓</span> Exposes structured health probes (<code class="text-xs bg-slate-100 px-1 py-0.5 rounded">/healthz/liveness</code> and <code class="text-xs bg-slate-100 px-1 py-0.5 rounded">/healthz/readiness</code>).</li>
+                <li class="flex items-start gap-2"><span class="text-indigo-600 font-bold">✓</span> Maintains zero local persistent state, writing all state to external stores.</li>
+              </ul>
+            </div>
+            <div class="pt-4 border-t border-slate-100">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Technologies</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Node.js 20 LTS</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Fastify / Express</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">TypeScript</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Prisma / Drizzle</span>
+              </div>
+            </div>
+          </div>
 
-      <h3>Sharding</h3>
-      <p>Partition your data across multiple databases based on a shard key. This allows you to distribute both reads and writes.</p>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:border-red-400 transition-all">
+            <div>
+              <div class="inline-block bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Ultra-Low Latency State &amp; Cache</div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3 mt-0">Distributed Redis Data Store</h3>
+              <ul class="space-y-2 text-sm text-slate-600 mb-6 pl-0 list-none">
+                <li class="flex items-start gap-2"><span class="text-red-600 font-bold">✓</span> Serves sub-millisecond reads via Cache-Aside and Stale-While-Revalidate strategies.</li>
+                <li class="flex items-start gap-2"><span class="text-red-600 font-bold">✓</span> Maintains distributed sessions, rate limits, and short-lived idempotency tokens.</li>
+                <li class="flex items-start gap-2"><span class="text-red-600 font-bold">✓</span> Provides Pub/Sub event broadcasting for instant cache invalidation across pods.</li>
+              </ul>
+            </div>
+            <div class="pt-4 border-t border-slate-100">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Technologies</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Redis Cluster (v7+)</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">ioredis</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">DragonflyDB</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">AWS ElastiCache</span>
+              </div>
+            </div>
+          </div>
 
-      <h3>Caching Strategies</h3>
-      <p>Implement multi-level caching with Redis or Memcached to reduce database load and improve response times.</p>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:border-emerald-400 transition-all">
+            <div>
+              <div class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Asynchronous Inter-Service Communication</div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3 mt-0">Decoupled Event Streaming Fabric</h3>
+              <ul class="space-y-2 text-sm text-slate-600 mb-6 pl-0 list-none">
+                <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> Decouples producers from consumers to absorb unpredictable traffic spikes.</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> Guarantees at-least-once message delivery with Dead Letter Queues (DLQ).</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">✓</span> Enables event-sourcing and eventual consistency across isolated databases.</li>
+              </ul>
+            </div>
+            <div class="pt-4 border-t border-slate-100">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Technologies</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Apache Kafka</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">RabbitMQ</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">AWS SQS/SNS</span>
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono">Redpanda</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <h2>Application Architecture</h2>
+      <!-- Section 4 -->
+      <section id="redis-deep-dive" class="scroll-mt-20">
+        <h2>4. Redis Under the Hood: Distributed Caching, Locking &amp; Pub/Sub</h2>
+        <p>Redis is the critical layer preventing primary SQL or NoSQL database exhaustion during traffic spikes. However, improper caching patterns often lead to three catastrophic failure modes: Cache Stampedes (Dog-piling), Cache Penetration, and Cache Avalanche.</p>
+        <p>To mitigate these risks, production services must use dynamic probabilistic early expiration (XFetch algorithm) or strict Mutex Locks during cache replenishment, paired with jittered TTLs to prevent simultaneous key expiration.</p>
 
-      <h3>Microservices</h3>
-      <p>Break down your application into smaller, independent services that can be scaled individually.</p>
+        <div class="my-8 not-prose">
+          <div class="bg-slate-900 rounded-t-2xl px-6 py-3 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-blue-400 font-bold">src/infrastructure/cache/RedisCacheManager.ts</span>
+            <span class="text-xs text-slate-400 font-mono">TypeScript</span>
+          </div>
+          <pre class="m-0 rounded-b-2xl rounded-t-none bg-slate-950 p-6 overflow-x-auto text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800"><code>import Redis, { Cluster } from 'ioredis';
+import { createHash } from 'crypto';
 
-      <h3>Load Balancing</h3>
-      <p>Distribute incoming traffic across multiple servers to ensure no single server becomes a bottleneck.</p>
+export class RedisCacheManager {
+  private redis: Cluster;
 
-      <h3>CDN Integration</h3>
-      <p>Use Content Delivery Networks to serve static assets and reduce the load on your origin servers.</p>
+  constructor() {
+    this.redis = new Redis.Cluster([
+      { host: process.env.REDIS_NODE_1 || '127.0.0.1', port: 6379 },
+      { host: process.env.REDIS_NODE_2 || '127.0.0.1', port: 6380 },
+      { host: process.env.REDIS_NODE_3 || '127.0.0.1', port: 6381 },
+    ], {
+      redisOptions: {
+        enableAutoPipelining: true,
+        maxRetriesPerRequest: 3,
+        connectTimeout: 5000,
+      },
+      scaleReads: 'slave',
+    });
 
-      <h2>Monitoring and Observability</h2>
+    this.redis.on('error', (err) => {
+      console.error('Redis Cluster Connection Error:', err);
+    });
+  }
 
-      <p>Implement comprehensive monitoring to track system performance and identify bottlenecks:</p>
-      <ul>
-        <li>Application Performance Monitoring (APM)</li>
-        <li>Infrastructure monitoring</li>
-        <li>Log aggregation and analysis</li>
-        <li>Distributed tracing</li>
-      </ul>
+  /**
+   * Cache-Aside implementation with distributed Mutex to prevent Cache Stampedes
+   */
+  public async getOrSet&lt;T&gt;(
+    key: string,
+    fetcher: () =&gt; Promise&lt;T&gt;,
+    ttlSeconds: number = 300
+  ): Promise&lt;T&gt; {
+    const cached = await this.redis.get(key);
+    if (cached) {
+      return JSON.parse(cached) as T;
+    }
 
-      <h2>Best Practices</h2>
+    const lockKey = \`lock:\${key}\`;
+    const lockAcquired = await this.redis.set(lockKey, 'locked', 'EX', 10, 'NX');
 
-      <ol>
-        <li>Design for failure - assume components will fail</li>
-        <li>Implement proper error handling and graceful degradation</li>
-        <li>Use asynchronous processing for non-critical operations</li>
-        <li>Implement rate limiting to prevent abuse</li>
-        <li>Regular load testing to identify bottlenecks</li>
-      </ol>
+    if (!lockAcquired) {
+      // Wait 100ms and retry reading cache while primary worker populates data
+      await new Promise((resolve) =&gt; setTimeout(resolve, 100));
+      return this.getOrSet(key, fetcher, ttlSeconds);
+    }
 
-      <p>Building scalable applications requires careful planning and the right architectural decisions. By following these principles, you can create systems that grow with your business needs.</p>
+    try {
+      const freshData = await fetcher();
+      // Add random jitter (±10%) to prevent simultaneous cache expiration
+      const jitter = Math.floor(Math.random() * (ttlSeconds * 0.2)) - (ttlSeconds * 0.1);
+      const finalTtl = Math.max(10, Math.floor(ttlSeconds + jitter));
+
+      await this.redis.setex(key, finalTtl, JSON.stringify(freshData));
+      return freshData;
+    } finally {
+      await this.redis.del(lockKey);
+    }
+  }
+
+  /**
+   * Atomic Sliding Window Rate Limiter using Redis Sorted Sets
+   */
+  public async isRateLimited(identifier: string, limit: number, windowSec: number): Promise&lt;boolean&gt; {
+    const key = \`ratelimit:\${identifier}\`;
+    const now = Date.now();
+    const clearBefore = now - windowSec * 1000;
+
+    const pipeline = this.redis.pipeline();
+    pipeline.zremrangebyscore(key, 0, clearBefore);
+    pipeline.zadd(key, now, \`\${now}-\${Math.random()}\`);
+    pipeline.zcard(key);
+    pipeline.expire(key, windowSec);
+
+    const results = await pipeline.exec();
+    const count = (results?.[2]?.[1] as number) || 0;
+
+    return count &gt; limit;
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="docker-orchestration" class="scroll-mt-20">
+        <h2>5. Hardened Multi-Stage Dockerization &amp; Resource Tuning</h2>
+        <p>Shipping containerized Node.js services to Kubernetes or AWS ECS requires eliminating attack vectors and optimizing image layer caching. Running containers as <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">root</code> is a major security vulnerability, and including build tools (<code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">python</code>, <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">make</code>, <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">gcc</code>) in the final runtime increases container image size from ~150MB to &gt;1.2GB.</p>
+        <p>The following multi-stage build separates compiler toolchains, dev dependencies, and source transpilation into isolated build layers, outputting a hardened Alpine runtime that executes under an unprivileged <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">node</code> user account.</p>
+
+        <div class="my-8 not-prose">
+          <div class="bg-slate-900 rounded-t-2xl px-6 py-3 border-b border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-cyan-400 font-bold">Dockerfile</span>
+            <span class="text-xs text-slate-400 font-mono">Dockerfile</span>
+          </div>
+          <pre class="m-0 rounded-b-2xl rounded-t-none bg-slate-950 p-6 overflow-x-auto text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800"><code># ==========================================
+# Stage 1: Dependency &amp; Build Base
+# ==========================================
+FROM node:20-alpine AS builder
+
+WORKDIR /usr/src/app
+
+# Install build essentials for native addons (e.g., bcrypt, bufferutil)
+RUN apk add --no-cache python3 make g++
+
+COPY package*.json tsconfig.json ./
+RUN npm ci --prefer-offline
+
+COPY src/ ./src
+RUN npm run build
+
+# Prune devDependencies to keep production node_modules minimal
+RUN npm prune --production
+
+# ==========================================
+# Stage 2: Production Distroless / Hardened Alpine
+# ==========================================
+FROM node:20-alpine AS runner
+
+# Set strict security and runtime environmental variables
+ENV NODE_ENV=production \\
+    PORT=3000 \\
+    NODE_OPTIONS="--max-old-space-size=1536 --enable-source-maps"
+
+WORKDIR /usr/src/app
+
+# Add dumb-init to handle PID 1 signal forwarding (SIGTERM/SIGINT) correctly
+RUN apk add --no-cache dumb-init
+
+# Copy only required production artifacts from the builder stage
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=builder /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=builder /usr/src/app/dist ./dist
+
+# Drop root privileges and switch to built-in unprivileged user
+USER node
+
+EXPOSE 3000
+
+# Healthcheck probe for container orchestrators
+HEALTHCHECK --interval=15s --timeout=3s --start-period=5s --retries=3 \\
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/healthz/liveness || exit 1
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["node", "dist/server.js"]</code></pre>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section id="resilience-patterns" class="scroll-mt-20">
+        <h2>6. Fault Tolerance: Circuit Breakers, Bulkheads &amp; Jittered Retries</h2>
+        <p>In distributed architectures, transient network failures and database latency spikes are inevitable. If downstream Service B begins taking 8 seconds per request instead of 40ms, calling Service A will rapidly exhaust its Node.js connection pools and worker memory waiting for responses.</p>
+        <p>Resilient microservices must implement three defensive patterns simultaneously: Circuit Breakers (cutting off broken dependencies), Bulkheads (isolating resource pools), and Exponential Backoff with Jitter.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 not-prose">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-amber-400 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg mb-4">⚡</div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2 mt-0">Circuit Breaker Pattern (Opossum)</h3>
+            <div class="mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Mechanism</span>
+              <p class="text-xs text-slate-600 leading-relaxed">Monitors call failure rates. When errors exceed 50% over a 10s window, the circuit trips OPEN. Inbound calls return fallback responses instantly.</p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1">Recovery</span>
+              <p class="text-xs text-slate-600 leading-relaxed">After cooldown (e.g., 30s), transitions to HALF-OPEN to sample test traffic until stability is verified.</p>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-blue-400 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg mb-4">🛡️</div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2 mt-0">Bulkhead Isolation</h3>
+            <div class="mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Mechanism</span>
+              <p class="text-xs text-slate-600 leading-relaxed">Separates socket &amp; thread pools across integrations so Third-Party API failures cannot deplete auth resources.</p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-1">Recovery</span>
+              <p class="text-xs text-slate-600 leading-relaxed">Rejects excess requests immediately with HTTP 429/503 instead of queuing infinitely.</p>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-purple-400 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg mb-4">🔄</div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2 mt-0">Exponential Backoff with Full Jitter</h3>
+            <div class="mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Mechanism</span>
+              <p class="text-xs text-slate-600 leading-relaxed">Retries failed idempotent requests using randomized jitter to prevent Thundering Herd spikes.</p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-purple-600 block mb-1">Recovery</span>
+              <p class="text-xs text-slate-600 leading-relaxed">Limits total retries to 3 before escalating to a dead-letter queue (DLQ).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7 -->
+      <section id="observability-tracing" class="scroll-mt-20">
+        <h2>7. Distributed Tracing, Structured Logging &amp; Metric Telemetry</h2>
+        <p>Debugging distributed transactions across multiple microservices without centralized tracing is virtually impossible. A single user checkout operation may touch the Gateway, Auth Service, Inventory Service, Payment Processor, and Email Worker.</p>
+        <p>Every service must implement the W3C TraceContext standard via OpenTelemetry, injecting <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-rose-600 font-mono">traceparent</code> headers across HTTP and message broker boundaries.</p>
+
+        <div class="space-y-4 my-8 not-prose">
+          <div class="p-6 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-md">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-md border border-blue-400/30">Tracing</span>
+              <h3 class="text-lg font-bold text-white m-0">Distributed Tracing (OpenTelemetry + Jaeger)</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed m-0">Propagates Trace IDs and Span IDs through all inter-service HTTP headers and Kafka metadata records to visualize end-to-end request latencies and pinpoint slow database queries.</p>
+          </div>
+
+          <div class="p-6 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-md">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-md border border-emerald-400/30">Logging</span>
+              <h3 class="text-lg font-bold text-white m-0">Structured JSON Logging (Pino)</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed m-0">Eliminates <code class="text-xs bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">console.log</code> in favor of high-performance asynchronous JSON logging that tags every log entry with <code class="text-xs bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">correlationId</code>, <code class="text-xs bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">serviceName</code>, <code class="text-xs bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">environment</code>, and <code class="text-xs bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono">userId</code>.</p>
+          </div>
+
+          <div class="p-6 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-md">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="px-2.5 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-md border border-purple-400/30">Metrics</span>
+              <h3 class="text-lg font-bold text-white m-0">Time-Series Metrics (Prometheus + Grafana)</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed m-0">Tracks RED metrics (Rate, Errors, Duration) alongside Node.js event loop lag, garbage collection cycles, active file descriptors, and Redis memory fragmentation ratios.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8 -->
+      <section id="production-readiness-checklist" class="scroll-mt-20">
+        <h2>8. Enterprise Production Readiness Checklist</h2>
+
+        <div class="space-y-6 my-8 not-prose">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+            <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 mt-0">
+              <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+              Traffic &amp; State Management
+            </h3>
+            <ul class="space-y-3 pl-0 list-none text-sm text-slate-700">
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-blue-600 shrink-0" />
+                <span>Redis eviction policy explicitly configured to <code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">allkeys-lru</code> for pure caches or <code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">volatile-lru</code> for keyed session stores.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-blue-600 shrink-0" />
+                <span>Connection pooling enabled with strict minimum/maximum pool constraints across Redis and PostgreSQL/MongoDB drivers.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-blue-600 shrink-0" />
+                <span>Idempotency Keys implemented using Redis <code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">SET key value NX EX 86400</code> on all mutation endpoints (POST/PUT/PATCH).</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+            <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 mt-0">
+              <span class="w-3 h-3 rounded-full bg-indigo-600"></span>
+              Container &amp; Infrastructure Hardening
+            </h3>
+            <ul class="space-y-3 pl-0 list-none text-sm text-slate-700">
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-indigo-600 shrink-0" />
+                <span>Containers execute as non-root users (<code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">USER node</code>) with read-only root filesystems where applicable.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-indigo-600 shrink-0" />
+                <span>Graceful shutdown handlers capture <code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">SIGTERM</code> and <code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">SIGINT</code>, finishing active HTTP connections with a 15-30s drain window before exiting.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-indigo-600 shrink-0" />
+                <span>CPU and memory request/limit quotas defined in Kubernetes manifests to prevent OOMKilled noisy-neighbor scenarios.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+            <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2 mt-0">
+              <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+              Security &amp; Network Isolation
+            </h3>
+            <ul class="space-y-3 pl-0 list-none text-sm text-slate-700">
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-emerald-600 shrink-0" />
+                <span>Internal microservices isolated inside private subnets/VPCs; no direct public ingress except through the API Gateway.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-emerald-600 shrink-0" />
+                <span>mTLS (Mutual TLS) enabled for service-to-service communication via an Envoy/Istio service mesh.</span>
+              </li>
+              <li class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                <input type="checkbox" checked disabled class="mt-1 rounded text-emerald-600 shrink-0" />
+                <span>Automated vulnerability scanning integrated into CI/CD pipelines via Trivy and Snyk.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="mt-14 pt-10 border-t border-slate-200 not-prose">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-8">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-2 mt-0 flex items-center gap-2">
+              <span class="text-blue-600 font-bold">Q:</span> How do you maintain database transactions across multiple microservices without distributed locks?
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed m-0 pl-6">
+              Avoid 2-Phase Commit (2PC) protocols as they introduce severe latency and locking overhead. Instead, use the Saga Pattern (either Orchestrated via a workflow engine like Temporal, or Choreographed via Kafka events) with compensating transactions to roll back state if a step in the pipeline fails.
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-2 mt-0 flex items-center gap-2">
+              <span class="text-blue-600 font-bold">Q:</span> When should I use gRPC instead of REST/HTTP for internal microservice communication?
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed m-0 pl-6">
+              Use gRPC (Protocol Buffers over HTTP/2) for synchronous internal service-to-service communication where high throughput and sub-5ms latencies are critical. Use REST/JSON for public-facing edge gateways and asynchronous message brokers (Kafka/RabbitMQ) for decoupled, non-blocking workflows.
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-2 mt-0 flex items-center gap-2">
+              <span class="text-blue-600 font-bold">Q:</span> How do we prevent Redis from becoming a single point of failure (SPOF)?
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed m-0 pl-6">
+              Deploy Redis in a high-availability Redis Cluster configuration with at least 3 master nodes and 3 replica nodes distributed across distinct availability zones, backed by automatic failover via Redis Sentinel or native cloud-managed services like AWS ElastiCache Multi-AZ.
+            </p>
+          </div>
+        </div>
+      </section>
     `,
-    author: 'Jane Smith',
-    date: '2025-09-19',
+    author: 'Dr. Sarah Connor',
+    date: '2025-12-03',
     category: 'Architecture',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    imageAlt: 'Complex system architecture diagram with connected nodes',
-    authorImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80',
-    readTime: '12 min read',
-    tags: ['Scalability', 'Architecture', 'Performance', 'Microservices', 'Database']
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1400&q=80',
+    imageAlt: 'Modern high-density data center racks running distributed containerized microservices',
+    authorImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&q=80',
+    readTime: '18 min read',
+    tags: ['Node.js', 'Microservices', 'Docker', 'Redis', 'Distributed Systems', 'System Design', 'High Availability', 'DevOps']
   },
   {
     slug: 'ai-in-modern-web-apps',

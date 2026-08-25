@@ -49,7 +49,7 @@ async function postHandler(req: NextRequest, user: { id: string }) {
   }
 }
 
-async function getHandler(req: NextRequest) {
+async function getHandler() {
   try {
     const blogs = await db.blog.findMany({
       include: {
@@ -66,7 +66,7 @@ async function getHandler(req: NextRequest) {
       },
     });
     return NextResponse.json(blogs);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch blogs' }, { status: 500 });
   }
 }

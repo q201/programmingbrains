@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { Prisma } from '@prisma/client';
 
 export async function GET(req: NextRequest) {
     try {
@@ -15,7 +16,7 @@ export async function GET(req: NextRequest) {
         const search = searchParams.get('search');
 
         // Build where clause
-        const where: any = { published: true };
+        const where: Prisma.BlogWhereInput = { published: true };
 
         if (category) {
             where.categories = {

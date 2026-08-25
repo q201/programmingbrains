@@ -14,39 +14,41 @@ export async function verifyPassword(password: string, hashedPassword: string): 
   return bcrypt.compare(password, hashedPassword);
 }
 
-export function generateToken(payload: any): string {
+export function generateToken(payload: string | object | Buffer): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 }
 
-export function verifyToken(token: string): any {
+export function verifyToken(token: string): jwt.JwtPayload | string | null {
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
+  } catch {
     return null;
   }
 }
 
-type Role = 'USER' | 'ADMIN' | 'user' | 'admin';
+export type Role = 'USER' | 'ADMIN' | 'user' | 'admin';
 
-type AuthenticatedUser = {
+export type AuthenticatedUser = {
   id: string;
   role: Role;
+  name?: string | null;
+  email?: string | null;
 };
 
-export function withAuth(
-  handler: (req: NextRequest, user: AuthenticatedUser, ...args: any[]) => Promise<NextResponse>,
+export function withAuth<T extends unknown[] = unknown[]>(
+  handler: (req: NextRequest, user: AuthenticatedUser, ...args: T) => Promise<NextResponse | Response>,
   requiredRoles: Role[]
 ) {
-  return async (req: NextRequest, ...args: any[]) => {
+  return async (req: NextRequest, ...args: T) => {
     const token = req.cookies.get('token')?.value;
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const decoded = verifyToken(token);
+    const decoded = verifyToken(token) as (jwt.JwtPayload & { id: string }) | null;
 
-    if (!decoded) {
+    if (!decoded || !decoded.id) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
@@ -56,11 +58,14 @@ export function withAuth(
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    if (requiredRoles.length > 0 && !requiredRoles.includes(user.role as Role)) {
+    const userRole = (user.role as string).toLowerCase() as Role;
+    const normalizedRequiredRoles = requiredRoles.map(r => r.toLowerCase());
+
+    if (requiredRoles.length > 0 && !normalizedRequiredRoles.includes(userRole)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    return handler(req, { id: user.id, role: user.role as Role }, ...args);
+    return handler(req, { id: user.id, role: userRole, name: user.name, email: user.email }, ...args);
   };
 }
 

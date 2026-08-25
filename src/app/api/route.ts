@@ -1,12 +1,9 @@
-// import  generateMetadata  from 'next';
+import { NextResponse } from 'next/server';
 
-export async function generateStaticParams() {
-  return [];
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  return {
-    title: 'Latest News and Updates',
-    description: 'Stay updated with the latest news and information',
-  };
-}
+export async function GET() {
+  return NextResponse.json({
+    status: 'online',
+    service: 'Programming Brains API',
+    version: '1.0.0'
+  });
+}

@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db'
 import { hashPassword } from '@/lib/auth'
 
 // GET /api/users - Get all users (admin only)
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const users = await prisma.user.findMany({
       select: {

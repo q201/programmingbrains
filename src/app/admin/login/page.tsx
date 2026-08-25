@@ -28,7 +28,7 @@ export default function AdminLoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        if (data.user?.role !== 'admin') {
+        if (data.user?.role?.toLowerCase() !== 'admin') {
           setError('Access denied. Admin credentials required.');
           return;
         }

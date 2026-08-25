@@ -1,9 +1,9 @@
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { withAuth } from '@/lib/auth';
 
-async function handler(req: NextRequest) {
+async function handler() {
   try {
     const users = await db.user.findMany({
       select: {
@@ -16,7 +16,7 @@ async function handler(req: NextRequest) {
       },
     });
     return NextResponse.json(users);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
   }
 }

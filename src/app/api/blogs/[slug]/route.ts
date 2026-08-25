@@ -2,11 +2,12 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
-export async function GET(req: Request, { params }: { params: { slug: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
+    const { slug } = await params;
     const blog = await db.blog.findUnique({
       where: {
-        slug: params.slug,
+        slug,
         published: true
       },
       include: {

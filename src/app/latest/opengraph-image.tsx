@@ -1,8 +1,14 @@
 import { ImageResponse } from 'next/og';
  
 export const runtime = 'edge';
+export const alt = 'Latest News';
+export const size = {
+  width: 1200,
+  height: 630,
+};
+export const contentType = 'image/png';
  
-export async function GET() {
+export default async function Image() {
   return new ImageResponse(
     (
       <div
@@ -20,8 +26,7 @@ export async function GET() {
       </div>
     ),
     {
-      width: 1200,
-      height: 630,
+      ...size,
     }
   );
 }

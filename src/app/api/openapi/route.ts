@@ -17,6 +17,7 @@ export async function GET() {
       { name: "Health", description: "Service health checks" },
       { name: "Auth", description: "Authentication endpoints" },
       { name: "Blogs", description: "Public blog APIs" },
+      { name: "News", description: "Daily tech news endpoints" },
     ],
     components: {
       securitySchemes: {
@@ -74,6 +75,21 @@ export async function GET() {
               type: "array",
               items: { $ref: "#/components/schemas/Category" },
             },
+          },
+        },
+        News: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            title: { type: "string" },
+            slug: { type: "string" },
+            excerpt: { type: "string", nullable: true },
+            content: { type: "string" },
+            sourceUrl: { type: "string", nullable: true },
+            published: { type: "boolean" },
+            coverImage: { type: "string", nullable: true },
+            viewCount: { type: "integer" },
+            createdAt: { type: "string", format: "date-time" },
           },
         },
       },
@@ -237,6 +253,49 @@ export async function GET() {
             },
             "404": {
               description: "Blog not found",
+            },
+          },
+        },
+      },
+      "/api/admin/news": {
+        get: {
+          tags: ["News"],
+          summary: "List news items (Admin)",
+          security: [{ cookieAuth: [] }],
+          responses: {
+            "200": {
+              description: "List of news items",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: { $ref: "#/components/schemas/News" },
+                  },
+                },
+              },
+            },
+          },
+        },
+        post: {
+          tags: ["News"],
+          summary: "Create a new news item (Admin)",
+          security: [{ cookieAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/News" },
+              },
+            },
+          },
+          responses: {
+            "200": {
+              description: "Created news item",
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/News" },
+                },
+              },
             },
           },
         },

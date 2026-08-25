@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
 
     // Create response with user data (excluding password)
     const { password: _, ...userWithoutPassword } = user;
+    void _;
 
     const response = NextResponse.json({
       message: 'Login successful',

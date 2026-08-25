@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -25,6 +26,7 @@ model User {
 
   blogs     Blog[]
   comments  Comment[]
+  news      News[]
 
   @@map("users")
 }
@@ -73,6 +75,7 @@ model Category {
   name           String          @unique
   blogs          Blog[]
   tutorialTracks TutorialTrack[]
+  news           News[]
 
   @@map("categories")
 }
@@ -111,4 +114,43 @@ model TutorialTopic {
 
   @@index([trackId, sortOrder])
   @@map("tutorial_topics")
+}
+
+model News {
+  id          String     @id @default(cuid())
+  title       String
+  content     String     @db.Text
+  excerpt     String?
+  slug        String     @unique
+  published   Boolean    @default(false)
+  sourceUrl   String?
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  categories  Category[]
+  tags        String[]
+  coverImage  String?
+  imageAlt    String?
+  featured    Boolean    @default(false)
+  viewCount   Int        @default(0)
+  seoTitle    String?
+  seoDesc     String?
+
+  @@map("news")
+}
+
+model NewsSource {
+  id            String    @id @default(cuid())
+  name          String
+  category      String
+  url           String
+  type          String    @default("rss")
+  enabled       Boolean   @default(true)
+  description   String?
+  lastFetchedAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("news_sources")
 }

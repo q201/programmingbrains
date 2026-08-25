@@ -263,17 +263,62 @@ async function main() {
     }
     console.log('');
 
+    // Create sample commenter users
+    console.log('👤 Creating commenter users...');
+    const commentersData = [
+        {
+            email: 'john.doe@example.com',
+            name: 'John Doe',
+            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+            bio: 'Frontend enthusiast & Next.js practitioner'
+        },
+        {
+            email: 'jane.smith@example.com',
+            name: 'Jane Smith',
+            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+            bio: 'System Architect and Cloud Developer'
+        },
+        {
+            email: 'alex.rivera@example.com',
+            name: 'Alex Rivera',
+            avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+            bio: 'AI & Data Science Engineer'
+        }
+    ];
+
+    const commenters = [];
+    for (const cData of commentersData) {
+        let u = await prisma.user.findUnique({ where: { email: cData.email } });
+        if (!u) {
+            u = await prisma.user.create({
+                data: {
+                    email: cData.email,
+                    name: cData.name,
+                    password: await hashPassword('user123'),
+                    role: 'USER',
+                    avatar: cData.avatar,
+                    bio: cData.bio
+                }
+            });
+            console.log(`  ✅ Created user: ${cData.name}`);
+        } else {
+            console.log(`  ⏭️  User exists: ${cData.name}`);
+        }
+        commenters.push(u);
+    }
+    console.log('');
+
     // Migrate blogs
     console.log('📝 Migrating blog posts...');
     for (const blog of staticBlogs) {
-        const existing = await prisma.blog.findUnique({
+        let blogRecord = await prisma.blog.findUnique({
             where: { slug: blog.slug }
         });
 
-        if (!existing) {
+        if (!blogRecord) {
             const category = categories.get(blog.category);
 
-            await prisma.blog.create({
+            blogRecord = await prisma.blog.create({
                 data: {
                     slug: blog.slug,
                     title: blog.title,
@@ -297,20 +342,57 @@ async function main() {
         } else {
             console.log(`  ⏭️  Already exists: ${blog.title}`);
         }
+
+        // Seed comments for this blog if none exist
+        const existingCommentsCount = await prisma.comment.count({
+            where: { blogId: blogRecord.id }
+        });
+
+        if (existingCommentsCount === 0) {
+            console.log(`  💬 Seeding comments for "${blog.title}"...`);
+            const sampleComments = [
+                {
+                    content: `Extremely well-written guide! The breakdown of ${blog.tags[0]} concepts gave me a much clearer perspective for our team workflow.`,
+                    authorId: commenters[0].id
+                },
+                {
+                    content: `Fantastic article! The production patterns mentioned here are spot on. Looking forward to more deep dives on ${blog.tags[1] || 'this topic'}.`,
+                    authorId: commenters[1].id
+                },
+                {
+                    content: `Great read! Implemented the recommendations in our project today and saw immediate improvements. Thanks for sharing!`,
+                    authorId: commenters[2].id
+                }
+            ];
+
+            for (const commentData of sampleComments) {
+                await prisma.comment.create({
+                    data: {
+                        content: commentData.content,
+                        blogId: blogRecord.id,
+                        authorId: commentData.authorId,
+                        approved: true
+                    }
+                });
+            }
+            console.log(`  ✅ Seeded 3 comments for "${blog.title}"`);
+        }
     }
 
-    console.log('\n✨ Migration complete!');
+    console.log('\n✨ Migration & Comment Seeding complete!');
     console.log('\n📊 Summary:');
 
     const stats = await Promise.all([
         prisma.blog.count(),
         prisma.category.count(),
-        prisma.user.count()
+        prisma.user.count(),
+        prisma.comment.count()
     ]);
 
     console.log(`  - Blogs: ${stats[0]}`);
     console.log(`  - Categories: ${stats[1]}`);
     console.log(`  - Users: ${stats[2]}`);
+    console.log(`  - Comments: ${stats[3]}`);
 
     console.log('\n🔐 Admin Credentials:');
     console.log('  Email: admin@programmingbrains.com');

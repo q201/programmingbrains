@@ -1,8 +1,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/auth';
+import { AuthenticatedUser, withAuth } from '@/lib/auth';
 
-async function handler(req: NextRequest, user: any) {
+async function handler(req: NextRequest, user: AuthenticatedUser) {
   try {
     return NextResponse.json({ user });
   } catch (error) {

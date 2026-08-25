@@ -1,12 +1,14 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5000';
+  
   return {
     rules: {
       userAgent: '*',
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://yourdomain.com/sitemap.xml',
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

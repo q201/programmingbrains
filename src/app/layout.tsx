@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5000'),
   title: "Programming Brains - Your Journey to Better Development",
   description: "Empowering developers with knowledge and skills for the future. Learn React, TypeScript, Next.js and more with our comprehensive tutorials and blog posts.",
   keywords: ["programming", "tutorials", "React", "TypeScript", "Next.js", "web development", "coding", "JavaScript"],

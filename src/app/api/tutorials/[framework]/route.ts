@@ -10,6 +10,36 @@ export async function GET(_: Request, { params }: RouteParams) {
   try {
     const { framework } = await params;
 
+    // 1. Try to fetch from TutorialTrack table
+    const dbTrack = await db.tutorialTrack.findFirst({
+      where: { slug: framework, published: true },
+      include: {
+        topics: {
+          orderBy: { sortOrder: "asc" }
+        }
+      }
+    });
+
+    if (dbTrack) {
+      return NextResponse.json({
+        track: {
+          slug: dbTrack.slug,
+          title: dbTrack.title,
+          description: dbTrack.description || "",
+          level: dbTrack.level || "All Levels",
+          totalDuration: dbTrack.totalDuration || `${dbTrack.topics.length} topics`,
+          topics: dbTrack.topics.map((topic) => ({
+            id: topic.id,
+            title: topic.title,
+            duration: topic.duration || "15 min",
+            summary: topic.summary || "",
+            content: topic.content
+          }))
+        }
+      });
+    }
+
+    // 2. Fallback to category mapping
     const categories = await db.category.findMany({
       include: {
         blogs: {

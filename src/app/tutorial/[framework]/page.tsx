@@ -38,9 +38,25 @@ export async function generateMetadata({ params }: TutorialFrameworkPageProps): 
     };
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5000';
+
   return {
     title: `${track.title} | Programming Brains`,
     description: track.description,
+    alternates: {
+      canonical: `${baseUrl}/tutorial/${framework}`,
+    },
+    openGraph: {
+      title: `${track.title} | Programming Brains`,
+      description: track.description,
+      url: `${baseUrl}/tutorial/${framework}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${track.title} | Programming Brains`,
+      description: track.description,
+    },
   };
 }
 
@@ -50,8 +66,26 @@ export default async function TutorialFrameworkPage({ params }: TutorialFramewor
 
   if (!track) notFound();
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5000';
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: track.title,
+    description: track.description,
+    provider: {
+      "@type": "Organization",
+      name: "Programming Brains",
+      sameAs: baseUrl
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <TutorialViewer
         title={track.title}
         level={track.level}

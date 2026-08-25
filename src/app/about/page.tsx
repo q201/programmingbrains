@@ -9,63 +9,68 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-500 to-blue-300 text-white py-20">
-        <div className="mx-auto px-[200px]">
-          <div className="mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6">About Programming Brains</h1>
-            <p className="text-xl mb-8 max-w-3xl mx-auto">
-              Empowering developers worldwide with cutting-edge knowledge, practical tutorials, and industry insights to accelerate your programming journey.
-            </p>
-          </div>
+      <section className="relative overflow-hidden bg-slate-950 text-white py-24 bg-grid-pattern">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-4">
+            💡 Our Story & Mission
+          </span>
+          <h1 className="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight">
+            About Programming Brains
+          </h1>
+          <p className="text-slate-300 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed">
+            Empowering developers worldwide with cutting-edge knowledge, practical tutorials, and system architecture insights to accelerate your engineering career.
+          </p>
         </div>
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto px-[200px]">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Mission</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              To democratize programming education by providing high-quality, accessible content that bridges the gap between theory and practice.
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-blue-600 font-bold uppercase tracking-wider text-xs">Core Purpose</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mt-1 mb-4">Our Core Mission</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              To democratize technical education by delivering production-grade content that bridges the gap between basic syntax and real-world software architecture.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 hover:shadow-lg transition-all duration-300">
+              <div className="w-14 h-14 bg-blue-600/10 border border-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Fast Learning</h3>
-              <p className="text-gray-600">
-                Structured content designed to help you learn quickly and efficiently with practical, real-world examples.
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Accelerated Growth</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Structured learning paths designed to help you absorb framework concepts rapidly with practical, production-ready examples.
               </p>
             </div>
 
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 hover:shadow-lg transition-all duration-300">
+              <div className="w-14 h-14 bg-purple-600/10 border border-purple-600/20 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Quality Content</h3>
-              <p className="text-gray-600">
-                Expert-reviewed tutorials and articles that follow industry best practices and current standards.
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Verified Excellence</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Expert-reviewed tutorials and system architecture deep-dives following industry best practices and security standards.
               </p>
             </div>
 
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 hover:shadow-lg transition-all duration-300">
+              <div className="w-14 h-14 bg-pink-600/10 border border-pink-600/20 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Community Driven</h3>
-              <p className="text-gray-600">
-                Built by developers, for developers. Join our growing community of learners and contributors.
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Developer Community</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Built by engineers for engineers. Join thousands of active developers exploring code walkthroughs and tech discussions.
               </p>
             </div>
           </div>
@@ -73,146 +78,77 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="mx-auto px-[200px]">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Meet Our Team</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Our diverse team of experienced developers and educators are passionate about sharing knowledge and helping others grow.
+      <section className="py-20 bg-slate-100/70 border-t border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-purple-600 font-bold uppercase tracking-wider text-xs">Behind The Scenes</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mt-1 mb-4">Meet Our Editorial Team</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Our team of experienced software engineers, system architects, and technical authors are passionate about sharing knowledge.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
                 name: "Sarah Johnson",
-                role: "Lead Instructor",
+                role: "Lead Architect",
                 image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-                bio: "Full-stack developer with 8+ years of experience in React and Node.js."
+                bio: "Full-stack engineer with 8+ years of experience building microservices with React & Next.js."
               },
               {
                 name: "Michael Chen",
-                role: "Content Creator",
+                role: "Senior Tech Author",
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-                bio: "Technical writer and developer advocate specializing in modern web technologies."
+                bio: "Technical writer and developer advocate specializing in AI tooling and web performance."
               },
               {
                 name: "Emily Rodriguez",
-                role: "UI/UX Designer",
+                role: "Design Lead",
                 image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-                bio: "Creative designer focused on building intuitive and beautiful user experiences."
+                bio: "UI/UX engineer focused on modern design systems, accessibility, and smooth micro-interactions."
               },
               {
                 name: "David Kim",
-                role: "DevOps Engineer",
+                role: "DevOps & Cloud Lead",
                 image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-                bio: "Infrastructure expert ensuring our platform runs smoothly and scales efficiently."
+                bio: "Infrastructure & CI/CD specialist ensuring high-availability database and deployment pipelines."
               }
             ].map((member, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-200">
+              <div key={index} className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                 <Image
                   src={member.image}
                   alt={member.name}
-                  width={80}
-                  height={80}
-                  className="rounded-full mx-auto mb-4"
+                  width={96}
+                  height={96}
+                  className="rounded-full mx-auto mb-4 object-cover ring-4 ring-blue-500/20"
                 />
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">{member.name}</h3>
-                <p className="text-blue-600 font-medium mb-3">{member.role}</p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{member.name}</h3>
+                <p className="text-blue-600 font-semibold text-xs mb-3">{member.role}</p>
+                <p className="text-slate-600 text-xs leading-relaxed">{member.bio}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto px-[200px]">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Values</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              The principles that guide everything we do at Programming Brains.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Continuous Learning</h3>
-                <p className="text-gray-600">
-                  We believe in the power of continuous learning and staying updated with the latest technologies and best practices.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Passion for Teaching</h3>
-                <p className="text-gray-600">
-                  Our team is passionate about sharing knowledge and helping others succeed in their development journey.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Quality First</h3>
-                <p className="text-gray-600">
-                  We prioritize quality over quantity, ensuring every tutorial and article meets our high standards.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0 9c-1.657 0-3-4.03-3-9s1.343-9 3-9m0 9c1.657 0 3 4.03 3 9s-1.343 9-3-9m-9 9a9 9 0 019-9" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Global Community</h3>
-                <p className="text-gray-600">
-                  We foster a global community where developers from all backgrounds can learn, share, and grow together.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-orange-400 to-orange-500 py-16">
-        <div className="mx-auto px-[200px] text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Join Our Community?</h2>
-          <p className="text-white text-xl mb-8">Start your learning journey with Programming Brains today</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <section className="relative overflow-hidden bg-slate-950 py-20 text-white">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">Ready to Level Up Your Skills?</h2>
+          <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">Start your learning journey with Programming Brains tutorials and engineering guides today.</p>
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/tutorials"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-white text-orange-500 hover:bg-orange-50 transition-colors"
+              href="/tutorial"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3.5 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-blue-600/30"
             >
               Browse Tutorials
             </Link>
             <Link
               href="/blog"
-              className="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-white hover:text-orange-500 transition-colors"
+              className="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-8 py-3.5 rounded-xl font-semibold text-sm transition-all"
             >
-              Read Our Blog
+              Explore Blog Articles
             </Link>
           </div>
         </div>
@@ -223,3 +159,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

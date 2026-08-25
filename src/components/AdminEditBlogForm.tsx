@@ -21,7 +21,7 @@ async function fetchBlog(slug: string) {
   return res.json();
 }
 
-async function updateBlog(id: string, data: any) {
+async function updateBlog(id: string, data: Record<string, unknown>) {
   const res = await fetch(`/api/admin/blogs/${id}`,
   {
     method: 'PUT',
