@@ -1,0 +1,4 @@
+project_id = "zopavofdvnurerynkttq"
+
+[functions.daily-news-cron]
+verify_jwt = false

@@ -1,0 +1,90 @@
+name: CI/CD Pipeline - Supabase & Prisma
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  # Job 1: Build & Type Check
+  build-check:
+    name: 🏗️ Build & Lint Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-[version](file:///home/quasim/My_Projects/programmingbrains/node_modules/next/dist/build/utils.js#L201): 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Next.js Production Build Test
+        run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET || 'ci-build-secret-key' }}
+
+  # Job 2: Supabase Database Migration & Sync
+  db-deploy:
+    name: 🗄️ Supabase DB Migration & Push
+    needs: build-check
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Push Prisma Schema to Supabase DB
+        run: npx prisma db push
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Seed Admin & News Sources to Supabase DB
+        run: |
+          npx tsx prisma/seed.ts || true
+          npx tsx prisma/seed-sources.ts || true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  # Job 3: Supabase Edge Functions Deployment
+  edge-functions-deploy:
+    name: ⚡ Supabase Edge Functions Deployment
+    needs: db-deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy Edge Functions to Supabase
+        run: |
+          supabase functions deploy --project-ref zopavofdvnurerynkttq
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
