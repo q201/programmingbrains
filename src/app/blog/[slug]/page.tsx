@@ -6,14 +6,19 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 
 export async function generateStaticParams() {
-  const blogs = await db.blog.findMany({
-    where: { published: true },
-    select: { slug: true }
-  });
+  try {
+    const blogs = await db.blog.findMany({
+      where: { published: true },
+      select: { slug: true }
+    });
 
-  return blogs.map((blog) => ({
-    slug: blog.slug,
-  }));
+    return blogs.map((blog) => ({
+      slug: blog.slug,
+    }));
+  } catch (error) {
+    console.warn('Unable to fetch blog static params during build:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

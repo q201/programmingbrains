@@ -5,11 +5,16 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 
 export async function generateStaticParams() {
-    const categories = await db.category.findMany();
+    try {
+        const categories = await db.category.findMany();
 
-    return categories.map((category) => ({
-        slug: category.name.toLowerCase().replace(/\s+/g, '-'),
-    }));
+        return categories.map((category) => ({
+            slug: category.name.toLowerCase().replace(/\s+/g, '-'),
+        }));
+    } catch (error) {
+        console.warn('Unable to fetch category static params during build:', error);
+        return [];
+    }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
